@@ -1,5 +1,8 @@
+import dotenv from 'dotenv';
 import { Pool } from 'pg';
 import { z } from 'zod';
+
+dotenv.config();
 
 const envSchema = z.object({
   DATABASE_URL: z.string().min(1)
