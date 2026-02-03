@@ -1,0 +1,36 @@
+{
+  "name": "twilio-eztexting-review-sms",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "migrate": "node-pg-migrate up",
+    "migrate:down": "node-pg-migrate down",
+    "worker": "tsx src/worker.ts"
+  },
+  "dependencies": {
+    "date-fns": "^3.6.0",
+    "date-fns-tz": "^3.2.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "node-fetch": "^3.3.2",
+    "pg": "^8.11.5",
+    "twilio": "^4.23.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.11.30",
+    "@types/pg": "^8.10.10",
+    "node-pg-migrate": "^7.7.0",
+    "tsx": "^4.15.6",
+    "typescript": "^5.4.5"
+  },
+  "node-pg-migrate": {
+    "dir": "migrations",
+    "migrationsTable": "pgmigrations"
+  }
+}
