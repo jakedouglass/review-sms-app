@@ -46,7 +46,7 @@ async function processOnce(): Promise<number> {
     }
 
     await client.query('commit');
-    return jobRes.rowCount;
+    return jobRes.rowCount ?? 0;
   } catch (err) {
     await client.query('rollback');
     throw err;

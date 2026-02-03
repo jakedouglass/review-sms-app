@@ -1,5 +1,5 @@
 import { addHours, addSeconds } from 'date-fns';
-import { formatInTimeZone, zonedTimeToUtc } from 'date-fns-tz';
+import { formatInTimeZone, fromZonedTime } from 'date-fns-tz';
 
 function parseHm(hm: string): { hour: number; minute: number } {
   const m = /^([01]?\d|2[0-3]):([0-5]\d)$/.exec(hm);
@@ -28,8 +28,8 @@ export function computeScheduledAt(args: {
   const startLocal = `${localDateStr} ${String(startH).padStart(2, '0')}:${String(startM).padStart(2, '0')}:00`;
   const endLocal = `${localDateStr} ${String(endH).padStart(2, '0')}:${String(endM).padStart(2, '0')}:00`;
 
-  let windowStartUtc = zonedTimeToUtc(startLocal, args.timezone);
-  let windowEndUtc = zonedTimeToUtc(endLocal, args.timezone);
+  let windowStartUtc = fromZonedTime(startLocal, args.timezone);
+  let windowEndUtc = fromZonedTime(endLocal, args.timezone);
 
   // If end <= start, treat as invalid.
   if (windowEndUtc <= windowStartUtc) {
@@ -40,7 +40,7 @@ export function computeScheduledAt(args: {
   if (earliestUtc > windowEndUtc) {
     const nextDayStr = formatInTimeZone(addHours(earliestUtc, 24), args.timezone, 'yyyy-MM-dd');
     const nextStartLocal = `${nextDayStr} ${String(startH).padStart(2, '0')}:${String(startM).padStart(2, '0')}:00`;
-    windowStartUtc = zonedTimeToUtc(nextStartLocal, args.timezone);
+    windowStartUtc = fromZonedTime(nextStartLocal, args.timezone);
   }
 
   // Candidate is max(earliest, windowStart)
